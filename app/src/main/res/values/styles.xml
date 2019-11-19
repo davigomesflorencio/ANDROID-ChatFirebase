@@ -1,0 +1,31 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:fontFamily">@font/ubuntu_regular</item>
+    </style>
+
+    <style name="TextStyleSplash" parent="android:TextAppearance">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="Toolbar.TitleText" parent="TextAppearance.AppCompat.Title">
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="AppTheme.RoundedTextViewReceive" parent="Widget.AppCompat.TextView">
+        <item name="android:background">@drawable/rounded_shape_receive</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="AppTheme.RoundedTextViewSend" parent="Widget.AppCompat.TextView">
+        <item name="android:background">@drawable/rounded_shape_send</item>
+    </style>
+</resources>
