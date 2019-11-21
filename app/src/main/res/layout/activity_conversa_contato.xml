@@ -4,21 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.chat.ConversaContato">
+    tools:context=".ui.conversas.ConversaContato">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listaMensagens"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="10dp"
+        app:stackFromEnd="true"
+        android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toTopOf="@+id/inputLayout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/listaMensagens"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </androidx.appcompat.widget.LinearLayoutCompat>
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -27,10 +24,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:hint="Digite aqui sua mensagem"
-        app:boxCornerRadiusBottomEnd="30dp"
-        app:boxCornerRadiusBottomStart="30dp"
-        app:boxCornerRadiusTopEnd="30dp"
-        app:boxCornerRadiusTopStart="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">

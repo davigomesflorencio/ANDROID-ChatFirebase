@@ -1,4 +1,4 @@
-package com.example.chatfirebase.ui.chat;
+package com.example.chatfirebase.ui.conversas;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,7 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chatfirebase.R;
 import com.example.chatfirebase.adapter.AdapterMensagens;
-import com.example.chatfirebase.model.Chat;
+import com.example.chatfirebase.model.Conversas;
+import com.example.chatfirebase.model.InfoConversa;
 import com.example.chatfirebase.model.ListaMensagens;
 import com.example.chatfirebase.model.Mensagem;
 import com.example.chatfirebase.util.FirebaseUtil;
@@ -33,7 +34,7 @@ public class ConversaContato extends AppCompatActivity {
 
     private RecyclerView recyclerViewListaMensagens;
     private TextInputEditText mensagem;
-    private Chat chat;
+    private Conversas conversas;
     private String id_chat;
     private String email_receptor;
 
@@ -59,23 +60,12 @@ public class ConversaContato extends AppCompatActivity {
         Intent i = getIntent();
         if (i.getExtras() != null) {
             email_receptor = i.getStringExtra("email");
-            Log.d("ConversaContato", "email-> " + email_receptor);
+//            Log.d("ConversaContato", "email-> " + email_receptor);
         }
 
         firebaseUtil = new FirebaseUtil();
         getChat();
 
-//        btSend.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                if (!msg.isEmpty()) {
-//                    salvarMensagem(msg);
-//                    mensagem.setText("");
-//                    mensagem.clearFocus();
-//                }
-//            }
-//        });
         mensagem.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -94,18 +84,18 @@ public class ConversaContato extends AppCompatActivity {
     }
 
     private void getChat() {
-        firebaseUtil.getFirebase().child("chats").addValueEventListener(new ValueEventListener() {
+        firebaseUtil.getFirebase().child("conversas_ativas").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Chat c = null;
+                InfoConversa c = null;
                 for (DataSnapshot dt : dataSnapshot.getChildren()) {
-                    c = dt.getValue(Chat.class);
+                    c = dt.getValue(InfoConversa.class);
                     if (c != null) {
-                        if (c.getId_participante01().equals(firebaseUtil.getFirebaseAuth().getCurrentUser().getUid()) &&
-                                c.getId_participante02().equals(email_receptor)) {
-                            chat = c;
+                        if ((c.getId_participante01().equals(firebaseUtil.getFirebaseAuth().getCurrentUser().getUid()) &&
+                                c.getId_participante02().equals(email_receptor))
+                                || (c.getId_participante02().equals(firebaseUtil.getFirebaseAuth().getCurrentUser().getEmail()))) {
                             id_chat = dt.getKey();
-                            Log.d("ConversaContato", "idchat-> " + id_chat);
+                            conversas = new Conversas();
                             getListaMensagens(id_chat);
                         }
                     }
@@ -122,9 +112,74 @@ public class ConversaContato extends AppCompatActivity {
         });
     }
 
+    private void createChat() {
+        conversas = new Conversas();
+        salvarConversa(conversas);
+    }
+
+    private void salvarConversa(Conversas c) {
+        String keychat = firebaseUtil.getFirebase().child("conversas_ativas").push().getKey();
+        ativarChat(keychat);
+    }
+
+    private void ativarChat(String id_chat) {
+        firebaseUtil.getFirebase()
+                .child("usuarios")
+                .child(firebaseUtil.getFirebaseAuth().getCurrentUser().getUid())
+                .child("conversas")
+                .child(id_chat)
+                .setValue(true)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d("ConversaContato", "ConversaContato ativo salvo");
+                        } else {
+                            Log.d("ConversaContato", "ConversaContato ativo não salvo");
+                        }
+                    }
+                });
+
+        InfoConversa infoConversa = new InfoConversa();
+        infoConversa.setId_participante01(firebaseUtil.getFirebaseAuth().getCurrentUser().getUid());
+        infoConversa.setId_participante02(email_receptor);
+
+        firebaseUtil.getFirebase()
+                .child("conversas_ativas")
+                .child(id_chat)
+                .setValue(infoConversa)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d("ConversaContato", "ConversaContato ativo salvo");
+                        } else {
+                            Log.d("ConversaContato", "ConversaContato ativo não salvo");
+                        }
+                    }
+                });
+    }
+
+    private void salvarConversa(Conversas c, String id_chat) {
+        firebaseUtil.getFirebase()
+                .child("conversas")
+                .child(id_chat)
+                .setValue(c.toMap())
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d("ConversaContato", "FragmentConversas salvo");
+                        } else {
+                            Log.d("ConversaContato", "FragmentConversas não salvo");
+                        }
+                    }
+                });
+    }
+
     private void getListaMensagens(String id_chat) {
         firebaseUtil.getFirebase()
-                .child("chats")
+                .child("conversas")
                 .child(id_chat)
                 .child("lista_mensagens")
                 .child("mensagens")
@@ -137,17 +192,15 @@ public class ConversaContato extends AppCompatActivity {
                             listaMensagens.addMensagem(m);
                         }
                         if (listaMensagens.getMensagens() != null) {
-                            chat.setListaMensagens(listaMensagens);
-                            for (int i = 0; i < listaMensagens.getMensagens().size(); i++)
-                                Log.d("ConversaContato", "LISTA MENSAGENS ->" + listaMensagens.getMensagens().get(i).getConteudo());
+                            conversas.setListaMensagens(listaMensagens);
 
                             AdapterMensagens adapterMensagens = new AdapterMensagens(getApplicationContext(), listaMensagens);
 
-                            llm = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
+                            llm = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, true);
                             recyclerViewListaMensagens.setLayoutManager(llm);
                             recyclerViewListaMensagens.setAdapter(adapterMensagens);
                         } else {
-                            Log.d("conversaCOntato", "lista nula");
+                            Log.d("conversaContato", "lista nula");
                         }
                     }
 
@@ -158,77 +211,16 @@ public class ConversaContato extends AppCompatActivity {
                 });
     }
 
-    private void createChat() {
-        chat = new Chat();
-        chat.setId_participante01(firebaseUtil.getFirebaseAuth().getCurrentUser().getUid());
-        chat.setId_participante02(email_receptor);
-        salvarChat(chat);
-    }
-
-    private void salvarChat(Chat c) {
-        String keychat = firebaseUtil.getFirebase().child("chats").push().getKey();
-        Log.d("ConversaContato", "keychat-> " + keychat);
-        id_chat = keychat;
-        firebaseUtil.getFirebase()
-                .child("chats")
-                .child(keychat)
-                .setValue(c.toMap())
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Log.d("ConversaContato", "Chat salvo");
-                        } else {
-                            Log.d("ConversaContato", "Chat não salvo");
-                        }
-                    }
-                });
-        ativarChat(keychat);
-    }
-
-    private void salvarChat(Chat c, String id_chat) {
-        firebaseUtil.getFirebase()
-                .child("chats")
-                .child(id_chat)
-                .setValue(c.toMap())
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Log.d("ConversaContato", "Chat salvo");
-                        } else {
-                            Log.d("ConversaContato", "Chat não salvo");
-                        }
-                    }
-                });
-    }
-
     private void salvarMensagem(String msg) {
-        chat.addMensagem(createMensagem(chat.getId_participante02(), msg));
-        salvarChat(chat, id_chat);
+        conversas.addMensagem(createMensagem(msg));
+        salvarConversa(conversas, id_chat);
     }
 
-    private void ativarChat(String id_chat) {
-        firebaseUtil.getFirebase()
-                .child("chats_ativos")
-                .child(id_chat)
-                .setValue(true)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Log.d("ConversaContato", "Chat ativo salvo");
-                        } else {
-                            Log.d("ConversaContato", "Chat ativo não salvo");
-                        }
-                    }
-                });
-    }
 
-    private Mensagem createMensagem(String destino, String msg) {
+    private Mensagem createMensagem(String msg) {
         Mensagem m = new Mensagem();
         m.setOrigem(firebaseUtil.getFirebaseAuth().getCurrentUser().getUid());
-        m.setDestino(destino);
+        m.setDestino(email_receptor);
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         m.setHora(timestamp.toString());
         m.setConteudo(msg);

@@ -1,16 +1,19 @@
-package com.example.chatfirebase.ui.usuario;
+package com.example.chatfirebase.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.chatfirebase.R;
-import com.example.chatfirebase.ui.usuario.Cadastro;
 import com.example.chatfirebase.ui.usuario.Principal;
 import com.example.chatfirebase.util.FirebaseUtil;
 import com.example.chatfirebase.util.LibraryClass;
@@ -65,6 +68,18 @@ public class Login extends AppCompatActivity {
 
     private void controlView() {
         firebaseUtil.setAuthStateListener(getFirebaseAuthResultHandler());
+        senha.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if ((actionId == EditorInfo.IME_ACTION_DONE)
+                        || ((event.getKeyCode() == KeyEvent.KEYCODE_ENTER) && (event.getAction() == KeyEvent.ACTION_DOWN))) {
+                    InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                    return true;
+                }
+                return false;
+            }
+        });
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

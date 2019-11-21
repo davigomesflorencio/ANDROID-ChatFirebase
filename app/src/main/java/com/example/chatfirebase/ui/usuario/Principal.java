@@ -14,10 +14,11 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.chatfirebase.R;
 import com.example.chatfirebase.adapter.TabLayoutAdapter;
-import com.example.chatfirebase.fragments.Contatos;
-import com.example.chatfirebase.fragments.Conversas;
+import com.example.chatfirebase.fragments.FragmentContatos;
+import com.example.chatfirebase.fragments.FragmentConversas;
 import com.example.chatfirebase.model.Contato;
 import com.example.chatfirebase.model.DetailsContato;
+import com.example.chatfirebase.ui.Login;
 import com.example.chatfirebase.util.FirebaseUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -90,8 +91,8 @@ public class Principal extends AppCompatActivity {
 
     private void initView() {
         tabLayoutAdapter = new TabLayoutAdapter(getSupportFragmentManager());
-        tabLayoutAdapter.addFragment(Conversas.newInstance(firebaseUtil.getFirebaseAuth().getCurrentUser().getUid()), "Conversas");
-        tabLayoutAdapter.addFragment(Contatos.newInstance(firebaseUtil.getFirebaseAuth().getCurrentUser().getUid()), "Contatos");
+        tabLayoutAdapter.addFragment(FragmentConversas.newInstance(firebaseUtil.getFirebaseAuth().getCurrentUser().getUid()), "Conversas");
+        tabLayoutAdapter.addFragment(FragmentContatos.newInstance(firebaseUtil.getFirebaseAuth().getCurrentUser().getUid()), "Contatos");
         viewPager = findViewById(R.id.viewpager);
 
         tabLayout = findViewById(R.id.tablayout);

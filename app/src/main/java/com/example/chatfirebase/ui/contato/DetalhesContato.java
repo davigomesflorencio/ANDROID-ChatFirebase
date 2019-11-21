@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.example.chatfirebase.R;
 import com.example.chatfirebase.model.DetailsContato;
-import com.example.chatfirebase.ui.chat.ConversaContato;
+import com.example.chatfirebase.ui.conversas.ConversaContato;
 import com.example.chatfirebase.util.FirebaseUtil;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.database.DataSnapshot;

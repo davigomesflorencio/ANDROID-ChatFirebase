@@ -11,7 +11,7 @@ import java.util.Map;
 @IgnoreExtraProperties
 public class Contato {
 
-    private String Nome;
+    private String nome;
     private String email;
 
     public Contato() {
@@ -27,17 +27,17 @@ public class Contato {
     }
 
     public String getNome() {
-        return Nome;
+        return nome;
     }
 
     public void setNome(String nome) {
-        Nome = nome;
+        this.nome = nome;
     }
 
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("nome", Nome);
+        result.put("nome", nome);
         result.put("email", email);
         return result;
     }

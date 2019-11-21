@@ -6,7 +6,7 @@ import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.chatfirebase.ui.usuario.Login;
+import com.example.chatfirebase.ui.Login;
 
 public class SplashScreen extends AppCompatActivity {
 

@@ -5,19 +5,19 @@ import java.util.List;
 
 public class ListaMensagens {
 
-    private List<Mensagem> mensagens;
+    private List<Mensagem> lista_mensagens;
 
     public ListaMensagens() {
     }
 
     public List<Mensagem> getMensagens() {
-        return mensagens;
+        return lista_mensagens;
     }
 
     public void addMensagem(Mensagem mensagem) {
-        if (mensagens == null) {
-            mensagens = new ArrayList<>();
+        if (lista_mensagens == null) {
+            lista_mensagens = new ArrayList<>();
         }
-        this.mensagens.add(mensagem);
+        this.lista_mensagens.add(mensagem);
     }
 }

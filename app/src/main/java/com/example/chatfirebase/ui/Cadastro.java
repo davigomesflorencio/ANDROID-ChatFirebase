@@ -1,4 +1,4 @@
-package com.example.chatfirebase.ui.usuario;
+package com.example.chatfirebase.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.chatfirebase.R;
+import com.example.chatfirebase.ui.Login;
 import com.example.chatfirebase.util.FirebaseUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;

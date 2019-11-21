@@ -25,6 +25,7 @@ public class AdapterMensagens extends RecyclerView.Adapter<ItemMensagem> {
         this.context = context;
         this.listaMensagens = listaMensagens;
         firebaseUtil = new FirebaseUtil();
+        inverte();
     }
 
     @NonNull
@@ -58,7 +59,7 @@ public class AdapterMensagens extends RecyclerView.Adapter<ItemMensagem> {
     @Override
     public int getItemViewType(int position) {
         if (listaMensagens.getMensagens().size() > 0) {
-            if (listaMensagens.getMensagens().get(position).getOrigem().equals(firebaseUtil.getFirebaseAuth().getCurrentUser().getEmail())) {
+            if (listaMensagens.getMensagens().get(position).getOrigem().equals(firebaseUtil.getFirebaseAuth().getCurrentUser().getUid())) {
                 return TYPE_SEND;
             } else {
                 return TYPE_RECEIVE;
@@ -70,5 +71,13 @@ public class AdapterMensagens extends RecyclerView.Adapter<ItemMensagem> {
     @Override
     public int getItemCount() {
         return listaMensagens.getMensagens().size();
+    }
+
+    private void inverte() {
+        ListaMensagens aux = new ListaMensagens();
+        for (int i = listaMensagens.getMensagens().size() - 1; i >= 0; i--) {
+            aux.addMensagem(listaMensagens.getMensagens().get(i));
+        }
+        listaMensagens = aux;
     }
 }

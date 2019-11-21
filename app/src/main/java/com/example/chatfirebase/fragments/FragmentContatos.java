@@ -3,6 +3,7 @@ package com.example.chatfirebase.fragments;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +28,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 
-public class Contatos extends Fragment {
+public class FragmentContatos extends Fragment {
 
     private static final String ARG_PARAM1 = "id_contato";
     private String id_contato;
@@ -39,12 +40,12 @@ public class Contatos extends Fragment {
 
     private LinearLayoutManager llm;
 
-    public Contatos() {
+    public FragmentContatos() {
 
     }
 
-    public static Contatos newInstance(String id_contato) {
-        Contatos fragment = new Contatos();
+    public static FragmentContatos newInstance(String id_contato) {
+        FragmentContatos fragment = new FragmentContatos();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, id_contato);
         fragment.setArguments(args);
@@ -56,6 +57,7 @@ public class Contatos extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             id_contato = getArguments().getString(ARG_PARAM1);
+            Log.d("FragmentContatos", "id_contato " + id_contato);
         }
         firebaseUtil = new FirebaseUtil();
     }

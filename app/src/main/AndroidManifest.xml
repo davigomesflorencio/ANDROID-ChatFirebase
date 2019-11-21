@@ -13,11 +13,11 @@
         android:roundIcon="@drawable/ic_chat"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.chat.ConversaContato"></activity>
+        <activity android:name=".ui.conversas.ConversaContato"></activity>
         <activity android:name=".ui.contato.DetalhesContato" />
         <activity android:name=".ui.contato.AdicionarContato" />
-        <activity android:name=".ui.usuario.Cadastro" />
-        <activity android:name=".ui.usuario.Login" />
+        <activity android:name=".ui.Cadastro" />
+        <activity android:name=".ui.Login" />
         <activity android:name=".ui.usuario.Principal" />
         <activity android:name=".SplashScreen">
             <intent-filter>

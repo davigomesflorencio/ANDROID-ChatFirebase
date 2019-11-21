@@ -9,21 +9,24 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chatfirebase.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.example.chatfirebase.util.FirebaseUtil;
 
 
-public class Conversas extends Fragment {
+public class FragmentConversas extends Fragment {
 
     private static final String ARG_PARAM1 = "id_contato";
     private String id_contato;
 
+    private FirebaseUtil firebaseUtil;
+
+
     private RecyclerView listaConversas;
 
-    public Conversas() {
+    public FragmentConversas() {
     }
 
-    public static Conversas newInstance(String id_contato) {
-        Conversas fragment = new Conversas();
+    public static FragmentConversas newInstance(String id_contato) {
+        FragmentConversas fragment = new FragmentConversas();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, id_contato);
         fragment.setArguments(args);
@@ -48,5 +51,16 @@ public class Conversas extends Fragment {
 
     private void initView(View view) {
         listaConversas = view.findViewById(R.id.ListaConversas);
+
+        controlView();
+    }
+
+    private void controlView() {
+        firebaseUtil = new FirebaseUtil();
+
+    }
+
+    private void ListaConversas() {
+
     }
 }

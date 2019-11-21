@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.usuario.Login">
+    tools:context=".ui.Login">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardview"
@@ -58,7 +58,8 @@
                 android:id="@+id/senha"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:imeOptions="actionDone"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <ProgressBar
