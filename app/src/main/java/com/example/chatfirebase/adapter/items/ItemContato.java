@@ -9,11 +9,13 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chatfirebase.R;
+import com.google.android.material.button.MaterialButton;
 
 public class ItemContato extends RecyclerView.ViewHolder {
 
-    public ConstraintLayout constraintLayout;
+    public MaterialButton btdetalhes;
     public TextView nomeContato;
+    public TextView emailContato;
 
     public ItemContato(@NonNull View itemView) {
         super(itemView);
@@ -22,6 +24,7 @@ public class ItemContato extends RecyclerView.ViewHolder {
 
     private void initView(View v) {
         nomeContato = v.findViewById(R.id.nome_contato);
-        constraintLayout = v.findViewById(R.id.item_contato);
+        emailContato = v.findViewById(R.id.email_contato);
+        btdetalhes = v.findViewById(R.id.btdetalhes);
     }
 }

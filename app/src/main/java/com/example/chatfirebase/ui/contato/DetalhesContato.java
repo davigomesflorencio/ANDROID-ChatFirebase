@@ -88,6 +88,7 @@ public class DetalhesContato extends AppCompatActivity {
                 Intent i = new Intent(getApplicationContext(), ConversaContato.class);
                 Bundle args = new Bundle();
                 args.putString("email", email_contato);
+                args.putString("nome", nome_contato);
                 i.putExtras(args);
                 startActivity(i);
                 finish();

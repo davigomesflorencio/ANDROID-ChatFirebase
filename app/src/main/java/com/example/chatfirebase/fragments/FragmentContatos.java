@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.chatfirebase.R;
 import com.example.chatfirebase.adapter.AdapterContatos;
+import com.example.chatfirebase.adapter.decoration.Divider;
 import com.example.chatfirebase.model.Contato;
 import com.example.chatfirebase.model.ListaContatos;
 import com.example.chatfirebase.ui.contato.AdicionarContato;
@@ -98,6 +99,7 @@ public class FragmentContatos extends Fragment {
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        lista_ct_usuario.getListaContatos().clear();
                         for (DataSnapshot noteSnapshot : dataSnapshot.getChildren()) {
                             Contato ct = noteSnapshot.getValue(Contato.class);
                             lista_ct_usuario.addContato(ct);
@@ -131,11 +133,7 @@ public class FragmentContatos extends Fragment {
                         }
                         AdapterContatos adapterContatos = new AdapterContatos(getContext(), aux);
 
-                        DividerItemDecoration horizontalDecoration = new DividerItemDecoration(listaContatos.getContext(),
-                                DividerItemDecoration.VERTICAL);
-                        Drawable horizontalDivider = ContextCompat.getDrawable(getActivity(), R.drawable.horizontal_divider);
-                        horizontalDecoration.setDrawable(horizontalDivider);
-                        listaContatos.addItemDecoration(horizontalDecoration);
+                        listaContatos.addItemDecoration(new Divider(getContext()));
 
                         llm = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
                         listaContatos.setLayoutManager(llm);

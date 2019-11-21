@@ -59,7 +59,7 @@ public class AdapterMensagens extends RecyclerView.Adapter<ItemMensagem> {
     @Override
     public int getItemViewType(int position) {
         if (listaMensagens.getMensagens().size() > 0) {
-            if (listaMensagens.getMensagens().get(position).getOrigem().equals(firebaseUtil.getFirebaseAuth().getCurrentUser().getUid())) {
+            if (listaMensagens.getMensagens().get(position).getOrigem().equals(firebaseUtil.getFirebaseAuth().getCurrentUser().getEmail())) {
                 return TYPE_SEND;
             } else {
                 return TYPE_RECEIVE;

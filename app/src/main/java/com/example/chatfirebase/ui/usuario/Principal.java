@@ -53,8 +53,17 @@ public class Principal extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
             case R.id.sair:
                 firebaseUtil.getFirebaseAuth().signOut();
                 return true;
@@ -91,7 +100,7 @@ public class Principal extends AppCompatActivity {
 
     private void initView() {
         tabLayoutAdapter = new TabLayoutAdapter(getSupportFragmentManager());
-        tabLayoutAdapter.addFragment(FragmentConversas.newInstance(firebaseUtil.getFirebaseAuth().getCurrentUser().getUid()), "Conversas");
+        tabLayoutAdapter.addFragment(FragmentConversas.newInstance(firebaseUtil.getFirebaseAuth().getCurrentUser().getEmail()), "Conversas");
         tabLayoutAdapter.addFragment(FragmentContatos.newInstance(firebaseUtil.getFirebaseAuth().getCurrentUser().getUid()), "Contatos");
         viewPager = findViewById(R.id.viewpager);
 

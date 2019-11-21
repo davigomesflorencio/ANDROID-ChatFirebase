@@ -39,7 +39,8 @@ public class AdapterContatos extends RecyclerView.Adapter<ItemContato> {
         if (listaContatos.getListaContatos().size() > 0) {
             Contato itemContato = listaContatos.getListaContatos().get(position);
             holder.nomeContato.setText(itemContato.getNome());
-            holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
+            holder.emailContato.setText(itemContato.getEmail());
+            holder.btdetalhes.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent i = new Intent(context, DetalhesContato.class);

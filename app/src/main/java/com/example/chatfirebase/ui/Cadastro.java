@@ -2,6 +2,7 @@ package com.example.chatfirebase.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -43,6 +44,17 @@ public class Cadastro extends AppCompatActivity {
     public void onBackPressed() {
         finish();
         return;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 
